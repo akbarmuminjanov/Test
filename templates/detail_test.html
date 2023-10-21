@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Detail - {{test.title}}
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Detail - {{test.title}}</h3>
+        </div>
+        <div class="card-body">
+            <p>Kategoriya: {{test.category}}</p>
+            <p>Boshlanish sanasi: {{test.start_date}}</p>
+            <p>Tugash sanasi: {{test.end_data}}</p>
+            <p>Maximum harakatlar: {{test.maximum_attemps}}</p>
+            <ol class="list-group list-group-numbered mt-5">
+                <h6>Savollar</h6>
+                {% for question in questions %}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">{{question.question}}</div>
+                      To`g`ri javob: {{question.true_answer}} | <a class="link-success" href="{% url 'update_question' question.id %}">Tahrirlash</a>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ol>
+        </div>
+    </div>
+{% endblock content %}

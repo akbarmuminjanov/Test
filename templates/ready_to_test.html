@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+    Testni Boshlash - {{test.title}}
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Testni boshlash - {{test.title}}</h3>
+        </div>
+        <div class="card-body">
+            <p>Kategoriya: {{test.category}}</p>
+            <p>Boshlanish sanasi: {{test.start_date}}</p>
+            <p>Tugash sanasi: {{test.end_data}}</p>
+            <p>Maximum harakatlar: {{test.maximum_attemps}}</p>
+            <p>Savollar soni: {{test.questions.all.count}}</p>
+            {% if user.profile.close_acc == False %}
+                <p>Avtor: <a href="{% url 'profile' test.author.id %}">{{test.author.username}}</a></p>
+            {% else %}
+                <p>Avtor: {{test.author.username}}</p>
+            {% endif %}
+            <a class="btn btn-primary" href="{% url 'test' test.id %}">Testni boshlash</a>
+            <a class="btn btn-success" href="/">Qaytish</a>
+        </div>
+    </div>
+{% endblock content %}
+

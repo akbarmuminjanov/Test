@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}
+    Test - {{checktest.test.title}}
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3> Test - {{checktest.test.title}}</h3>
+        </div>
+        <div class="card-body">
+            {% if checktest.is_passed %}
+                <h5>Siz testni muvaffaqiyatli yechdingiz</h5>
+                    <p>Siz testni {{checktest.percentage}}  % ishladingiz </p>
+            {% else %}
+                <h5>Siz ushbu testdan o`tolmadingiz {{checktest.percentage}} %</h5>
+                    <p>Testdan o`tish uchun kamida {{checktest.test.pass_percentage}}% ishlashingiz kerak </p>
+            {% endif %}
+            <hr>
+            {% for q in checkquestions %}
+              {% if q.is_true %}
+              <h5> {{forloop.counter}}. {{q.question.question}}</h5>
+              <small><strong>Note: {{q.given_answer}} belgilangan.</strong> </small>
+              <p>A. {{q.question.answer_a}}</p>
+              <p>B. {{q.question.answer_b}}</p>
+              <p>C. {{q.question.answer_c}}</p>
+              <p>D. {{q.question.answer_d}}</p>
+              {% else %}
+              <div class="answer p-2" style="background-color: rgba(248, 26, 26, 0.507); border-radius: 15px;" >
+                <h5> {{forloop.counter}}. {{q.question.question}}</h5>
+              <small><strong>Note: {{q.given_answer}} belgilangan.</strong> </small>
+              <p>A. {{q.question.answer_a}}</p>
+              <p>B. {{q.question.answer_b}}</p>
+              <p>C. {{q.question.answer_c}}</p>
+              <p>D. {{q.question.answer_d}}</p>
+              </div>
+              {% endif %}
+              <hr>
+            {% endfor %}   
+            <a class="btn btn-success" href="{% url 'profile' user.id %}">Qaytish</a>
+        </div>
+    </div>
+    <br><br>
+{% endblock content %}
+
+{% block footer %}
+      <footer class="py-5 bg-dark">
+        <div class="container">
+          <div class="row">
+                <div class="col-md-8">
+                    <p style="color: aliceblue;"><b>The author of the site Muminjanov.A</b></p>
+                    <p style="color: aliceblue;">This site was created in order to insert your Tests. anyone who wants can insert and share their tests.</p>
+                </div>
+                <div class="col-md-4">
+                    <p><a style="text-decoration: none; color: aliceblue;" href="https://instagram.com/priler_04?igshid=NzZlODBkYWE4Ng=="><i class="fa-brands fa-instagram"></i> Instagram</a></p>
+                    <p><a style="text-decoration: none; color: aliceblue;" href="https://github.com/akbarmuminjanov"><i class="fa-brands fa-github"></i> Github</a></p>
+                </div>
+          </div>
+        </div>
+      </footer>
+{% endblock footer %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Profile - {{user.first_name}}
+{% endblock title %}
+
+{% block content %}
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card p-2">
+                <center>
+                <img style="width: 200px; height: 200px; border-radius: 50%;" class="m-2" src="{{user.profile.picture.url}}" alt="">
+                <h3>{{user.get_full_name}}</h3>
+                </center>
+                <div class="card p-1">
+                <p class="text-muted">username: {{user.profile.user}}</p>
+                <hr>
+                <p> {{user.profile.bio}}</p>
+                <hr>
+                <h6>Yechilgan testlar: {{number_of_checktests}}</h6>
+                <h6>Yaratilgan testlar: {{number_of_test}}</h6>
+            </div>
+                {% if user == request.user %}
+                    <a class="btn btn-success mt-1" href="{% url 'update_user' %}">Tahrirlash</a>
+                {% endif %}
+<!-- ------------------------------------------------------------------------- -->
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Mening Natijaalarim</h3>
+                </div>
+                <div class="card-body">
+                    <ol class="list-group ">
+                        {% for test in tests %}
+                        
+                            <a class="mt-2" style="text-decoration: none;" data-bs-toggle="collapse" href="#collapse{{test.id}}" role="button" aria-expanded="false" aria-controls="collapse{{test.id}}">
+                                <li class="list-group-item ">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">{{test.title}}</div>
+                                      {{test.category.name}} 
+                                    </div>
+                                </li>
+                            </a>
+                          <div class="collapse mt-1" id="collapse{{test.id}}">
+                            <div class="card card-body">
+                                <ul class="list-group">
+                                    {% for checktest in test.checktests.all %}
+                                        <a style="text-decoration: none;" href="{% url 'check_test' checktest.id %}">
+                                            {% if checktest.is_passed %}
+                                                <li style="background-color: rgba(87, 219, 26, 0.815);" class="list-group-item"><b>Sana:</b> {{checktest.data}} | Foiz: {{checktest.percentage}}% ✓</li>
+                                            {% else %} 
+                                                <li style="background-color: rgba(253, 76, 76, 0.808);" class="list-group-item"><b>Sana:</b> {{checktest.data}} | Foiz: {{checktest.percentage}}%</li>
+                                            {% endif %}
+                                        </a>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                          </div>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
